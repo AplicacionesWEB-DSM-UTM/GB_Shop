@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using GB_Shop.Infrastruture.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GB_Shop
 {
@@ -32,6 +34,9 @@ namespace GB_Shop
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GB_Shop", Version = "v1" });
             });
+            services.AddDbContext<GB_ShopContext>
+            (options => options.UseSqlServer(Configuration.GetConnectionString("GB_Shop")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

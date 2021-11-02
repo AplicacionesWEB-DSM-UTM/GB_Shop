@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using GB_Shop.Domain.Entities;
 
 #nullable disable
 
-namespace GB_Shop.Domain.Entities
+namespace GB_Shop.Infrastruture.Data
 {
     public partial class GB_ShopContext : DbContext
     {
@@ -25,7 +26,8 @@ namespace GB_Shop.Domain.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=GB_Shop");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-AP83LF2M;Initial Catalog=GB_Shop;User ID=GB_Shop;Password=123456789;Persist Security Info=False");
             }
         }
 
