@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using GB_Shop.Infrastruture.Data;
+using GB_Shop.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace GB_Shop

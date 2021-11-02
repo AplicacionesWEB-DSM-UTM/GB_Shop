@@ -5,7 +5,7 @@ using GB_Shop.Domain.Entities;
 
 #nullable disable
 
-namespace GB_Shop.Infrastruture.Data
+namespace GB_Shop.Infraestructure.Data
 {
     public partial class GB_ShopContext : DbContext
     {
