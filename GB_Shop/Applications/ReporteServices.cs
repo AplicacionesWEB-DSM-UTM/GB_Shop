@@ -20,5 +20,50 @@ namespace GB_Shop.Applications
                 Foto : reporte.Foto == null ? string.Empty : reporte.Foto.Fotos
             );
         }
+
+        public Reporte ResponseToObject(ReporteResponseDto dto)
+        {
+            if(dto.FechaDenuncia == default(DateTime) && string.IsNullOrEmpty(dto.MotivoDenuncia) && string.IsNullOrEmpty(dto.DescripcionLugar) && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia) && string.IsNullOrEmpty(dto.Foto))
+            {
+                return null;
+            }
+            
+            var reporte = new Reporte{
+                FechaDenuncia = DateTime.Now,
+                MotivoDenuncia = dto.MotivoDenuncia,
+                DecripLugar = dto.DescripcionLugar,
+                GeoUbi = dto.GeoUbicacion,
+                Colonia = dto.Colonia,
+                Foto = new Foto{
+                    Id = 0,
+                    Fotos = dto.Foto,
+                }
+            };
+
+            return reporte;
+        }
+
+        public Reporte DtoToObject(ReporteFilterDto dto)
+        {
+            if((dto.Id <= 0) && string.IsNullOrEmpty(dto.MotivoDenuncia) && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia))
+            {
+                return null;
+            }
+
+            var reporte = new Reporte{
+                Id = dto.Id,
+                FechaDenuncia = default(DateTime),
+                MotivoDenuncia = dto.MotivoDenuncia,
+                DecripLugar = string.Empty,
+                GeoUbi = dto.GeoUbicacion,
+                Colonia = dto.Colonia,
+                Foto = new Foto{
+                    Id = 0,
+                    Fotos = string.Empty
+                }
+            };
+
+            return reporte;
+        }
     }
 }

@@ -5,6 +5,7 @@ using GB_Shop.Infraestructure.Repository;
 using GB_Shop.Domain.Dtos;
 using GB_Shop.Domain.Entities;
 using GB_Shop.Applications;
+using System.Linq;
 
 namespace Controllers
 {
@@ -15,11 +16,48 @@ namespace Controllers
         [HttpPost]
         [Route("")]
         [Route("Reportar")]
-        public string reportar(string MotivoDenuncia, string DescripLugar, string GeoUbi, string Colonia, string Fotos)
+        /*
+            el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
+            {
+                "FechaDenuncia" : "0001-01-01T00:00:00",
+                "MotivoDenuncia" : "",
+                "DecripLugar" : "",
+                "GeoUbi" : "",
+                "Colonia" : "",
+                "Foto" : ""
+            }
+        */
+        public string reportar(ReporteResponseDto dto)
         {
+            var services = new ReporteServices();
+            var reporte = services.ResponseToObject(dto);
+
             var repository = new ReporteSqlRepository();
-            var respuesta = repository.reportar(MotivoDenuncia, DescripLugar, GeoUbi, Colonia, Fotos);
+            var respuesta = repository.reportar(reporte);
             return respuesta;
+        }
+
+        [HttpPost]
+        [Route("ObtenerTodos")]
+        /*
+            el siguiente es un json con datos vacios, puede usarse para probar el metodo ObtenerTodos
+            {
+                "Id" : 0,
+                "MotivoDenuncia" : "",
+                "GeoUbicacion" : "",
+                "Colonia" : ""
+            }
+        */
+        public IActionResult GetByFilter(ReporteFilterDto dto)
+        {
+            var services = new ReporteServices();
+            var reporte = services.DtoToObject(dto);
+
+            var repository = new ReporteSqlRepository();
+            var reportes = repository.GetByFilter(reporte);
+            var respuesta = reportes.Select(x => services.ObjectToDto(x));
+
+            return Ok(respuesta);
         }
     }
 }
