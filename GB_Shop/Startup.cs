@@ -34,9 +34,8 @@ namespace GB_Shop
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GB_Shop", Version = "v1" });
             });
-            services.AddDbContext<GB_ShopContext>
-            (options => options.UseSqlServer(Configuration.GetConnectionString("GB_Shop")));
-            
+            services.AddDbContext<GBishopContext>
+            (options => options.UseSqlServer(Configuration.GetConnectionString("GBishop")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
