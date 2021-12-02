@@ -3,31 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using GB_Shop.Infraestructure.Data;
 using GB_Shop.Domain.Entities;
+using GB_Shop.Domain.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GB_Shop.Infraestructure.Repository
 {
-    public class DenunciaSqlRepository
+    public class DenunciaSqlRepository : IDenunciaRepository
     {
         private readonly GBishopContext _context;
 
-        public DenunciaSqlRepository()
+        public DenunciaSqlRepository(GBishopContext context)
         {
-            _context = new GBishopContext();
+            _context = context;
         }
 
-        public string reportar(Denuncia Denuncia)
+        public async Task<int> reportar(Denuncia Denuncia)
         {
-            if (Denuncia == null)
+            var entity = Denuncia;
+            await _context.AddAsync(entity);
+            var rows = await _context.SaveChangesAsync();
+
+            if (rows != 1)
             {
-                return "Datos Vacios, Porfavor Inserte Todos Los Campos";
+                throw new Exception("Ocurrió un fallo al intentar guardar el registro, verifica tu información...");
             }
             else
             {
-                return "Reporte Exitoso";
+                return entity.IdReporte;
             }
         }
 
-        public IEnumerable<Denuncia> GetByFilter(Denuncia Denuncia)
+        public async Task<IEnumerable<Denuncia>> GetByFilter(Denuncia Denuncia)
         {
             if(Denuncia == null)
             {
@@ -53,7 +60,7 @@ namespace GB_Shop.Infraestructure.Repository
                 query = query.Where(x => x.Colonia == Denuncia.Colonia);
             }
 
-            return query;
+            return await query.ToListAsync();
         }
     }
 }

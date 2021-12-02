@@ -13,6 +13,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using GB_Shop.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
+using GB_Shop.Domain.Interfaces;
+using GB_Shop.Infraestructure.Repository;
+using GB_Shop.Applications;
+using Microsoft.AspNetCore.Http;
 
 namespace GB_Shop
 {
@@ -34,8 +38,10 @@ namespace GB_Shop
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GB_Shop", Version = "v1" });
             });
-            services.AddDbContext<GBishopContext>
-            (options => options.UseSqlServer(Configuration.GetConnectionString("GBishop")));
+            services.AddDbContext<GBishopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GBishop")));
+            services.AddTransient<IDenunciaRepository, DenunciaSqlRepository>();
+            services.AddTransient<IDenunciaServices, DenunciaServices>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

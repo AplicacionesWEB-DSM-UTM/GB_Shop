@@ -70,7 +70,7 @@ namespace GB_Shop.Infraestructure.Data
 
                 entity.Property(e => e.IdReporte)
                     .ValueGeneratedNever()
-                    .HasColumnName("ID_Reporte");
+                    .HasColumnName("ID_Reporte").UseIdentityColumn();
 
                 entity.Property(e => e.Colonia)
                     .HasMaxLength(100)

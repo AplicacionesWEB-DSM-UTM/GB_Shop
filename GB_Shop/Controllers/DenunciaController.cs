@@ -1,11 +1,11 @@
 using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using GB_Shop.Infraestructure.Repository;
 using GB_Shop.Domain.Dtos;
-using GB_Shop.Applications;
+using GB_Shop.Domain.Interfaces;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Controllers
 {
@@ -13,6 +13,17 @@ namespace Controllers
     [Route("api/[controller]")]
     public class DenunciaController : ControllerBase
     {
+        private readonly IDenunciaRepository _repository;
+        private readonly IDenunciaServices _services;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public DenunciaController(IDenunciaRepository repository, IDenunciaServices services, IHttpContextAccessor httpContextAccessor)
+        {
+            this._repository = repository;
+            this._services = services;
+            this._httpContextAccessor = httpContextAccessor;
+        }
+        
         [HttpPost]
         [Route("")]
         [Route("Denunciar")]
@@ -26,19 +37,35 @@ namespace Controllers
                 "Foto" : ""
             }
         */
-        public string reportar(DenunciaResponseDto dto)
+        public async Task<IActionResult> reportar(DenunciaResponseDto dto)
         {
-            var services = new DenunciaServices();
-            var Denuncia = services.ResponseToObject(dto);
+            var validate = _services.validateEntity(dto);
 
-            var repository = new DenunciaSqlRepository();
-            var respuesta = repository.reportar(Denuncia);
-            return respuesta;
+            if(!validate)
+            {
+                UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
+            }
+
+            var Denuncia = _services.ResponseToObject(dto);
+
+            var id =  await _repository.reportar(Denuncia);
+
+            if(id <= 0)
+            {
+                return Conflict("El registro no puede ser realizado, verifica tu información…");
+            }
+
+            var host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var url_result = $"https://{host}/api/Denuncia/{id}";
+
+            return Created(url_result, id);
         }
 
         [HttpPost]
         [Route("ObtenerTodos")]
         /*
+            link: https://localhost:5001/api/Denuncia/ObtenerTodos/
+
             el siguiente es un json con datos vacios, puede usarse para probar el metodo ObtenerTodos
             {
                 "Id" : 0,
@@ -47,14 +74,12 @@ namespace Controllers
                 "Colonia" : ""
             }
         */
-        public IActionResult GetByFilter(DenunciaFilterDto dto)
+        public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
         {
-            var services = new DenunciaServices();
-            var Denuncia = services.DtoToObject(dto);
+            var Denuncia = _services.DtoToObject(dto);
 
-            var repository = new DenunciaSqlRepository();
-            var Denuncias = repository.GetByFilter(Denuncia);
-            var respuesta = Denuncias.Select(x => services.ObjectToDto(x));
+            var Denuncias =  await _repository.GetByFilter(Denuncia);
+            var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
 
             return Ok(respuesta);
         }

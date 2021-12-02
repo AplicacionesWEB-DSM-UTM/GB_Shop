@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using GB_Shop.Domain.Dtos;
 using GB_Shop.Domain.Entities;
+using GB_Shop.Domain.Interfaces;
 
 namespace GB_Shop.Applications
 {
-    public class DenunciaServices
+    public class DenunciaServices : IDenunciaServices
     {
         public DenunciaResponseDto ObjectToDto(Denuncia Denuncia)
         {
@@ -23,7 +24,7 @@ namespace GB_Shop.Applications
 
         public Denuncia ResponseToObject(DenunciaResponseDto dto)
         {
-            if(dto.FechaDenuncia == default(DateTime) && string.IsNullOrEmpty(dto.MotivoDenuncia) && string.IsNullOrEmpty(dto.DescripcionLugar) && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia) && string.IsNullOrEmpty(dto.Foto))
+            if(!validateEntity(dto))
             {
                 return null;
             }
@@ -34,6 +35,7 @@ namespace GB_Shop.Applications
                 DescLugar = dto.DescripcionLugar,
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
+                DFoto = 0,
                 Foto = new Foto{
                     IdFoto = 0,
                     Foto1 = dto.Foto,
@@ -64,6 +66,31 @@ namespace GB_Shop.Applications
             };
 
             return Denuncia;
+        }
+
+        public bool validateEntity(DenunciaResponseDto Denuncia)
+        {
+            if(string.IsNullOrEmpty(Denuncia.MotivoDenuncia))
+            {
+                return false;
+            }
+            if(string.IsNullOrEmpty(Denuncia.DescripcionLugar))
+            {
+                return false;
+            }
+            if(string.IsNullOrEmpty(Denuncia.GeoUbicacion))
+            {
+                return false;
+            }
+            if(string.IsNullOrEmpty(Denuncia.Colonia))
+            {
+                return false;
+            }
+            if(string.IsNullOrEmpty(Denuncia.Foto))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
