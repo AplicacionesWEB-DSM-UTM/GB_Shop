@@ -43,7 +43,7 @@ namespace Controllers
 
             if(!validate)
             {
-                UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
+                return UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
             }
 
             var Denuncia = _services.ResponseToObject(dto);

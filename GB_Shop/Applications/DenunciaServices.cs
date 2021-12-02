@@ -35,11 +35,6 @@ namespace GB_Shop.Applications
                 DescLugar = dto.DescripcionLugar,
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
-                IdFoto = 0,
-                Foto = new Foto{
-                    IdFoto = 0,
-                    Foto1 = dto.Foto,
-                }
             };
 
             return Denuncia;
