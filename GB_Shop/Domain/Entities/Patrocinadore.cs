@@ -7,9 +7,9 @@ namespace GB_Shop.Domain.Entities
 {
     public partial class Patrocinadore
     {
-        public int IdPatrocinadores { get; set; }
+        public int IdPatrocinador { get; set; }
         public string Patrocinador { get; set; }
 
-        public virtual Evento IdPatrocinadoresNavigation { get; set; }
+        public virtual Evento IdPatrocinadorNavigation { get; set; }
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using GB_Shop.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
+using GB_Shop.Infraestructure.Data;
 using GB_Shop.Domain.Interfaces;
 using GB_Shop.Infraestructure.Repository;
 using GB_Shop.Applications;
@@ -38,7 +38,7 @@ namespace GB_Shop
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GB_Shop", Version = "v1" });
             });
-            services.AddDbContext<GBishopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GBishop")));
+            services.AddDbContext<GB_shopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GBshop")));
             services.AddTransient<IDenunciaRepository, DenunciaSqlRepository>();
             services.AddTransient<IDenunciaServices, DenunciaServices>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();

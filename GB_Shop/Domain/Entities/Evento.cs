@@ -16,8 +16,5 @@ namespace GB_Shop.Domain.Entities
         public string CaractEven { get; set; }
         public int? IdPatrocinador { get; set; }
         public int? IdConsideraciones { get; set; }
-
-        public virtual ConsideracionesEsp ConsideracionesEsp { get; set; }
-        public virtual Patrocinadore Patrocinadore { get; set; }
     }
 }

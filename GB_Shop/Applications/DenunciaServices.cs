@@ -14,7 +14,7 @@ namespace GB_Shop.Applications
             return new DenunciaResponseDto
             (
                 FechaDenuncia : Denuncia.FechaDen, 
-                MotivoDenuncia : Denuncia.MotivoDen,
+                MotivoDenuncia : Denuncia.IdMotivo,
                 DescripcionLugar : Denuncia.DescLugar,
                 GeoUbicacion : Denuncia.GeoUbiDen,
                 Colonia : Denuncia.Colonia,
@@ -31,11 +31,11 @@ namespace GB_Shop.Applications
             
             var Denuncia = new Denuncia{
                 FechaDen = DateTime.Now,
-                MotivoDen = dto.MotivoDenuncia,
+                IdMotivo = dto.MotivoDenuncia,
                 DescLugar = dto.DescripcionLugar,
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
-                DFoto = 0,
+                IdFoto = 0,
                 Foto = new Foto{
                     IdFoto = 0,
                     Foto1 = dto.Foto,
@@ -47,7 +47,7 @@ namespace GB_Shop.Applications
 
         public Denuncia DtoToObject(DenunciaFilterDto dto)
         {
-            if((dto.Id <= 0) && string.IsNullOrEmpty(dto.MotivoDenuncia) && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia))
+            if((dto.Id <= 0) && dto.MotivoDenuncia <= 0 && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia))
             {
                 return null;
             }
@@ -55,7 +55,7 @@ namespace GB_Shop.Applications
             var Denuncia = new Denuncia{
                 IdReporte = dto.Id,
                 FechaDen = default(DateTime),
-                MotivoDen = dto.MotivoDenuncia,
+                IdMotivo = dto.MotivoDenuncia,
                 DescLugar = string.Empty,
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
@@ -70,7 +70,7 @@ namespace GB_Shop.Applications
 
         public bool validateEntity(DenunciaResponseDto Denuncia)
         {
-            if(string.IsNullOrEmpty(Denuncia.MotivoDenuncia))
+            if(Denuncia.MotivoDenuncia <= 0)
             {
                 return false;
             }

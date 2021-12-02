@@ -7,13 +7,13 @@ using GB_Shop.Domain.Entities;
 
 namespace GB_Shop.Infraestructure.Data
 {
-    public partial class GBishopContext : DbContext
+    public partial class GB_shopContext : DbContext
     {
-        public GBishopContext()
+        public GB_shopContext()
         {
         }
 
-        public GBishopContext(DbContextOptions<GBishopContext> options)
+        public GB_shopContext(DbContextOptions<GB_shopContext> options)
             : base(options)
         {
         }
@@ -22,14 +22,15 @@ namespace GB_Shop.Infraestructure.Data
         public virtual DbSet<Denuncia> Denuncias { get; set; }
         public virtual DbSet<Evento> Eventos { get; set; }
         public virtual DbSet<Foto> Fotos { get; set; }
+        public virtual DbSet<MotivosDenuncium> MotivosDenuncia { get; set; }
         public virtual DbSet<Patrocinadore> Patrocinadores { get; set; }
+        public virtual DbSet<Poi> Pois { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=LAPTOP-AP83LF2M;Initial Catalog=GBishop;User ID=GB_Shop;Password=123456789;Persist Security Info=False");
+                optionsBuilder.UseSqlServer("name=GBshop");
             }
         }
 
@@ -40,43 +41,32 @@ namespace GB_Shop.Infraestructure.Data
 
             modelBuilder.Entity<ConsideracionesEsp>(entity =>
             {
-                entity.HasKey(e => e.IdConsideraciones)
-                    .HasName("PK__Consider__5772F25AE9DB8B82");
+                entity.HasNoKey();
 
                 entity.ToTable("Consideraciones_esp", "dbo");
-
-                entity.Property(e => e.IdConsideraciones)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID_Consideraciones");
 
                 entity.Property(e => e.ConsideracionesEsp1)
                     .HasMaxLength(200)
                     .IsUnicode(false)
                     .HasColumnName("Consideraciones_esp");
 
-                entity.HasOne(d => d.IdConsideracionesNavigation)
-                    .WithOne(p => p.ConsideracionesEsp)
-                    .HasForeignKey<ConsideracionesEsp>(d => d.IdConsideraciones)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Consideraciones_esp_Evento");
+                entity.Property(e => e.IdConsideraciones)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID_Consideraciones");
             });
 
             modelBuilder.Entity<Denuncia>(entity =>
             {
                 entity.HasKey(e => e.IdReporte)
-                    .HasName("PK__Denuncia");
+                    .HasName("PK__Denuncia__DE8C5D3E376A5259");
 
                 entity.ToTable("Denuncias", "dbo");
 
-                entity.Property(e => e.IdReporte)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID_Reporte").UseIdentityColumn();
+                entity.Property(e => e.IdReporte).HasColumnName("ID_Reporte");
 
                 entity.Property(e => e.Colonia)
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.DFoto).HasColumnName("D_Foto");
 
                 entity.Property(e => e.DescLugar)
                     .HasMaxLength(300)
@@ -92,22 +82,19 @@ namespace GB_Shop.Infraestructure.Data
                     .IsUnicode(false)
                     .HasColumnName("GeoUbi_Den");
 
-                entity.Property(e => e.MotivoDen)
-                    .HasMaxLength(300)
-                    .IsUnicode(false)
-                    .HasColumnName("Motivo_Den");
+                entity.Property(e => e.IdFoto).HasColumnName("ID_Foto");
+
+                entity.Property(e => e.IdMotivo).HasColumnName("ID_motivo");
             });
 
             modelBuilder.Entity<Evento>(entity =>
             {
                 entity.HasKey(e => e.IdEven)
-                    .HasName("PK__Evento__6069AFA32FC8F864");
+                    .HasName("PK__Eventos__6069AFA373B088EA");
 
-                entity.ToTable("Evento", "dbo");
+                entity.ToTable("Eventos", "dbo");
 
-                entity.Property(e => e.IdEven)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID_Even");
+                entity.Property(e => e.IdEven).HasColumnName("ID_Even");
 
                 entity.Property(e => e.CantPersonas).HasColumnName("Cant_Personas");
 
@@ -140,12 +127,12 @@ namespace GB_Shop.Infraestructure.Data
             modelBuilder.Entity<Foto>(entity =>
             {
                 entity.HasKey(e => e.IdFoto)
-                    .HasName("PK__Foto__195DD875DE19F064");
+                    .HasName("PK__Foto__195DD875D645FE24");
 
                 entity.ToTable("Foto", "dbo");
 
                 entity.Property(e => e.IdFoto)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("ID_Foto");
 
                 entity.Property(e => e.Foto1)
@@ -160,26 +147,75 @@ namespace GB_Shop.Infraestructure.Data
                     .HasConstraintName("fk_Denuncias");
             });
 
+            modelBuilder.Entity<MotivosDenuncium>(entity =>
+            {
+                entity.HasKey(e => e.IdMotivo)
+                    .HasName("PK__MotivosD__9535A4AD52DC994D");
+
+                entity.ToTable("MotivosDenuncia", "dbo");
+
+                entity.Property(e => e.IdMotivo).HasColumnName("ID_motivo");
+
+                entity.Property(e => e.Motivos)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Patrocinadore>(entity =>
             {
-                entity.HasKey(e => e.IdPatrocinadores)
-                    .HasName("PK__Patrocin__4680CDF75C85599E");
+                entity.HasNoKey();
 
                 entity.ToTable("Patrocinadores", "dbo");
 
-                entity.Property(e => e.IdPatrocinadores)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID_Patrocinadores");
+                entity.Property(e => e.IdPatrocinador)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID_Patrocinador");
 
                 entity.Property(e => e.Patrocinador)
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdPatrocinadoresNavigation)
-                    .WithOne(p => p.Patrocinadore)
-                    .HasForeignKey<Patrocinadore>(d => d.IdPatrocinadores)
+                entity.HasOne(d => d.IdPatrocinadorNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdPatrocinador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Evento");
+                    .HasConstraintName("fk_Eventos");
+            });
+
+            modelBuilder.Entity<Poi>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("POI", "dbo");
+
+                entity.Property(e => e.Colonia)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Confirmar)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.GeoUbiDen)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("GeoUbi_Den");
+
+                entity.Property(e => e.IdMotivo).HasColumnName("ID_motivo");
+
+                entity.Property(e => e.IdPoi)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("ID_poi");
+
+                entity.Property(e => e.Rechazar)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.IdPoiNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdPoi)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_MotivosDenuncia");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -11,9 +11,9 @@ namespace GB_Shop.Infraestructure.Repository
 {
     public class DenunciaSqlRepository : IDenunciaRepository
     {
-        private readonly GBishopContext _context;
+        private readonly GB_shopContext _context;
 
-        public DenunciaSqlRepository(GBishopContext context)
+        public DenunciaSqlRepository(GB_shopContext context)
         {
             _context = context;
         }
@@ -47,9 +47,9 @@ namespace GB_Shop.Infraestructure.Repository
             {
                 query = query.Where(x => x.IdReporte == Denuncia.IdReporte);
             }
-            if(!String.IsNullOrEmpty(Denuncia.MotivoDen))
+            if(Denuncia.IdMotivo > 0)
             {
-                query = query.Where(x => x.MotivoDen == Denuncia.MotivoDen);
+                query = query.Where(x => x.IdMotivo == Denuncia.IdMotivo);
             }
             if (!string.IsNullOrEmpty(Denuncia.GeoUbiDen))
             {

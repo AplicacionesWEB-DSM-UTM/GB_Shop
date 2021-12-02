@@ -9,11 +9,11 @@ namespace GB_Shop.Domain.Entities
     {
         public int IdReporte { get; set; }
         public DateTime? FechaDen { get; set; }
-        public string MotivoDen { get; set; }
+        public int? IdMotivo { get; set; }
         public string DescLugar { get; set; }
         public string GeoUbiDen { get; set; }
         public string Colonia { get; set; }
-        public int? DFoto { get; set; }
+        public int? IdFoto { get; set; }
 
         public virtual Foto Foto { get; set; }
     }

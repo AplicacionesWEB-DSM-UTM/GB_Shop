@@ -29,13 +29,13 @@ namespace Controllers
         [Route("Denunciar")]
         /*
             el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
-            {
-                "MotivoDenuncia" : "",
-                "DecripLugar" : "",
-                "GeoUbi" : "",
-                "Colonia" : "",
-                "Foto" : ""
-            }
+{
+    "MotivoDenuncia":"huele mal",
+    "DescripcionLugar":"esta horrible",
+    "GeoUbicacion":"12.345678903456789, 20,345678234567893",
+    "Colonia":"mercedes barrera",
+    "Foto":"foto.png"
+}
         */
         public async Task<IActionResult> reportar(DenunciaResponseDto dto)
         {
@@ -83,7 +83,7 @@ namespace Controllers
 
             return Ok(respuesta);
         }
-
+/*
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult GetById(int id)
@@ -106,12 +106,12 @@ namespace Controllers
             if(id == 60)
                 return StatusCode(StatusCodes.Status406NotAcceptable, "La neta no se me ocurrio que poner");
             //Cambiar esto
-            /*return Ok(new WeatherForecast{
+            return Ok(new WeatherForecast{
                 Date = DateTime.Now.AddDays(3),
                 TemperatureC = id,
                 Summary = "Que horror de clima"
-            });*/
+            });
             return Ok();
-        }
+        }*/
     }
 }
