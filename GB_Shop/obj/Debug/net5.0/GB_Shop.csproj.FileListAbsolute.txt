@@ -183,3 +183,5 @@ C:\Users\live\Downloads\Trash\GB_Shop\obj\Debug\net5.0\staticwebassets\GB_Shop.S
 C:\Users\live\Downloads\Trash\GB_Shop\obj\Debug\net5.0\GB_Shop.RazorTargetAssemblyInfo.cache
 C:\Users\live\Downloads\Trash\GB_Shop\obj\Debug\net5.0\GB_Shop.csproj.CopyComplete
 C:\Users\live\Downloads\Trash\GB_Shop\obj\Debug\net5.0\GB_Shop.genruntimeconfig.cache
+D:\proyectos\HTML\Proyecto_basurero\GB_Shop\bin\Debug\net5.0\AutoMapper.dll
+D:\proyectos\HTML\Proyecto_basurero\GB_Shop\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

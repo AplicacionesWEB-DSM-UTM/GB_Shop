@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GB_Shop.Domain.Entities;
 using GB_Shop.Domain.Dtos.Responses;
+using System;
 
 namespace Controllers
 {
@@ -29,9 +30,51 @@ namespace Controllers
             this._mapper = mapper;
         }
         
+#region Funciones
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var query = await _repository.GetById(id);
+            return Ok(query);
+
+        }
+
+        /*
+            link: https://localhost:5001/api/Denuncia/GetByFilter/
+
+            link: https://localhost:5001/api/Denuncia/CountByFilter/
+
+            el siguiente es un json con datos vacios, puede usarse para probar el metodo GetByFilter y CountByFilter
+{
+    "MotivoDenuncia" : 0,
+    "Colonia" : "",
+    "FechaDenuncia" : "0001-01-01"
+}
+        */
         [HttpPost]
-        [Route("")]
-        [Route("Denunciar")]
+        [Route("GetByFilter")]
+        public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
+        {
+            var Denuncia = _services.DtoToObject(dto);
+
+            var Denuncias =  await _repository.GetByFilter(Denuncia);
+            var respuesta = _mapper.Map<IEnumerable<Denuncia>, IEnumerable<DenunciaResponse>>(Denuncias);
+            //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
+
+            return Ok(respuesta);
+        }
+
+        [HttpPost]
+        [Route("CountByFilter")]
+        public async Task<IActionResult> CountByFilter(DenunciaFilterDto dto)
+        {
+            var denuncia = _services.DtoToObject(dto);
+
+            var query = await _repository.CountByFilter(denuncia);
+            return Ok(query);
+        }
+
         /*
             el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
 {
@@ -42,6 +85,10 @@ namespace Controllers
     "Foto":"foto.png"
 }
         */
+
+        [HttpPost]
+        [Route("")]
+        [Route("Denunciar")]
         public async Task<IActionResult> reportar(DenunciaResponseDto dto)
         {
             var validate = _services.validateEntity(dto);
@@ -50,12 +97,20 @@ namespace Controllers
             {
                 return UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
             }
+            var id = 0;
 
-            var Foto = _services.ResponseToFoto(dto);
-            var IdFoto = _repository.insertFoto(Foto);
+            try
+            {
+                var Foto = _services.ResponseToFoto(dto);
+                var IdFoto = _repository.insertFoto(Foto);
 
-            var Denuncia = _services.ResponseToObject(dto, IdFoto);
-            var id =  await _repository.reportar(Denuncia);
+                var Denuncia = _services.ResponseToObject(dto, IdFoto);
+                id = await _repository.reportar(Denuncia);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
             if(id <= 0)
             {
@@ -67,59 +122,6 @@ namespace Controllers
 
             return Created(url_result, id);
         }
-
-        [HttpPost]
-        [Route("ObtenerTodos")]
-        /*
-            link: https://localhost:5001/api/Denuncia/ObtenerTodos/
-
-            el siguiente es un json con datos vacios, puede usarse para probar el metodo ObtenerTodos
-{
-    "Id" : 0,
-    "MotivoDenuncia" : 0,
-    "GeoUbicacion" : "",
-    "Colonia" : ""
-}
-        */
-        public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
-        {
-            var Denuncia = _services.DtoToObject(dto);
-
-            var Denuncias =  await _repository.GetByFilter(Denuncia);
-            var respuesta = _mapper.Map<IEnumerable<Denuncia>, IEnumerable<DenunciaResponse>>(Denuncias);
-            //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
-
-            return Ok(respuesta);
-        }
-/*
-        [HttpGet]
-        [Route("{id:int}")]
-        public IActionResult GetById(int id)
-        {
-            if(id == 10)
-                return NotFound("No hay nada en esta busqueda");
-
-            if(id == 13)
-                return BadRequest("El numero prohibido");
-
-            if(id == 30)
-                return Created("Aqui se encuentra lo que buscas: https://www.facebook.com/Mamitas-mens-club-puebla-481841095680477/", 23);
-
-            if(id == 40)
-                return NoContent();
-
-            if(id == 50)
-               return StatusCode(StatusCodes.Status500InternalServerError, "Todo murio mi chavo");
-
-            if(id == 60)
-                return StatusCode(StatusCodes.Status406NotAcceptable, "La neta no se me ocurrio que poner");
-            //Cambiar esto
-            return Ok(new WeatherForecast{
-                Date = DateTime.Now.AddDays(3),
-                TemperatureC = id,
-                Summary = "Que horror de clima"
-            });
-            return Ok();
-        }*/
     }
+    #endregion
 }

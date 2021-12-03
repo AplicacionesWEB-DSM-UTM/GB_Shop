@@ -36,11 +36,6 @@ namespace GB_Shop.Applications
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
                 IdFoto = id
-                /*
-                Foto = new Foto()
-                {
-                    Foto1 = dto.Foto
-                }*/
             };
 
             return Denuncia;
@@ -62,17 +57,14 @@ namespace GB_Shop.Applications
 
         public Denuncia DtoToObject(DenunciaFilterDto dto)
         {
-            if((dto.Id <= 0) && dto.MotivoDenuncia <= 0 && string.IsNullOrEmpty(dto.GeoUbicacion) && string.IsNullOrEmpty(dto.Colonia))
+            if((dto.MotivoDenuncia <= 0) && string.IsNullOrEmpty(dto.Colonia) && (dto.FechaDenuncia == default(DateTime)))
             {
                 return null;
             }
 
             var Denuncia = new Denuncia{
-                IdReporte = dto.Id,
-                FechaDen = default(DateTime),
+                FechaDen = dto.FechaDenuncia,
                 IdMotivo = dto.MotivoDenuncia,
-                DescLugar = string.Empty,
-                GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia
             };
 
