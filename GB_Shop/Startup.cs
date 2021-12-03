@@ -38,6 +38,8 @@ namespace GB_Shop
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GB_Shop", Version = "v1" });
             });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<GB_shopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GBshop")));
             services.AddTransient<IDenunciaRepository, DenunciaSqlRepository>();
             services.AddTransient<IDenunciaServices, DenunciaServices>();
