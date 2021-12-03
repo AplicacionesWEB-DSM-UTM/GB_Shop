@@ -9,8 +9,9 @@ namespace GB_Shop.Domain.Interfaces
     public interface IDenunciaServices
     {
         public DenunciaResponseDto ObjectToDto(Denuncia Denuncia);
-        public Denuncia ResponseToObject(DenunciaResponseDto dto);
+        public Denuncia ResponseToObject(DenunciaResponseDto dto, int id);
         public Denuncia DtoToObject(DenunciaFilterDto dto);
         public bool validateEntity(DenunciaResponseDto Denuncia);
+        public Foto ResponseToFoto(DenunciaResponseDto dto);
     }
 }

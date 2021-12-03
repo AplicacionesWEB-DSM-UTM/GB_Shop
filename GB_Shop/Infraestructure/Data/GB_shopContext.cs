@@ -85,6 +85,16 @@ namespace GB_Shop.Infraestructure.Data
                 entity.Property(e => e.IdFoto).HasColumnName("ID_Foto");
 
                 entity.Property(e => e.IdMotivo).HasColumnName("ID_motivo");
+
+                entity.HasOne(d => d.IdFotoNavigation)
+                    .WithMany(p => p.Denuncia)
+                    .HasForeignKey(d => d.IdFoto)
+                    .HasConstraintName("FK_Denuncias_Foto");
+
+                entity.HasOne(d => d.IdMotivoNavigation)
+                    .WithMany(p => p.Denuncia)
+                    .HasForeignKey(d => d.IdMotivo)
+                    .HasConstraintName("FK_Denuncias_MotivosDenuncia");
             });
 
             modelBuilder.Entity<Evento>(entity =>
@@ -131,20 +141,12 @@ namespace GB_Shop.Infraestructure.Data
 
                 entity.ToTable("Foto", "dbo");
 
-                entity.Property(e => e.IdFoto)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("ID_Foto");
+                entity.Property(e => e.IdFoto).HasColumnName("ID_Foto");
 
                 entity.Property(e => e.Foto1)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Foto");
-
-                entity.HasOne(d => d.IdFotoNavigation)
-                    .WithOne(p => p.Foto)
-                    .HasForeignKey<Foto>(d => d.IdFoto)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Denuncias");
             });
 
             modelBuilder.Entity<MotivosDenuncium>(entity =>
@@ -211,10 +213,9 @@ namespace GB_Shop.Infraestructure.Data
                     .HasMaxLength(2)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdPoiNavigation)
+                entity.HasOne(d => d.IdMotivoNavigation)
                     .WithMany()
-                    .HasForeignKey(d => d.IdPoi)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey(d => d.IdMotivo)
                     .HasConstraintName("fk_MotivosDenuncia");
             });
 

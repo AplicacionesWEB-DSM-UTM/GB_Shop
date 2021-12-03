@@ -33,6 +33,21 @@ namespace GB_Shop.Infraestructure.Repository
                 return entity.IdReporte;
             }
         }
+        public int insertFoto(Foto Foto)
+        {
+            var entity = Foto;
+            _context.Add(entity);
+            var rows = _context.SaveChanges();
+
+            if (rows != 1)
+            {
+                throw new Exception("Ocurrió un fallo al intentar guardar el registro, verifica tu información...");
+            }
+            else
+            {
+                return entity.IdFoto;
+            }
+        }
 
         public async Task<IEnumerable<Denuncia>> GetByFilter(Denuncia Denuncia)
         {

@@ -30,7 +30,7 @@ namespace Controllers
         /*
             el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
 {
-    "MotivoDenuncia":"huele mal",
+    "MotivoDenuncia":1,
     "DescripcionLugar":"esta horrible",
     "GeoUbicacion":"12.345678903456789, 20,345678234567893",
     "Colonia":"mercedes barrera",
@@ -46,8 +46,10 @@ namespace Controllers
                 return UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
             }
 
-            var Denuncia = _services.ResponseToObject(dto);
+            var Foto = _services.ResponseToFoto(dto);
+            var IdFoto = _repository.insertFoto(Foto);
 
+            var Denuncia = _services.ResponseToObject(dto, IdFoto);
             var id =  await _repository.reportar(Denuncia);
 
             if(id <= 0)
@@ -67,12 +69,12 @@ namespace Controllers
             link: https://localhost:5001/api/Denuncia/ObtenerTodos/
 
             el siguiente es un json con datos vacios, puede usarse para probar el metodo ObtenerTodos
-            {
-                "Id" : 0,
-                "MotivoDenuncia" : "",
-                "GeoUbicacion" : "",
-                "Colonia" : ""
-            }
+{
+    "Id" : 0,
+    "MotivoDenuncia" : 0,
+    "GeoUbicacion" : "",
+    "Colonia" : ""
+}
         */
         public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
         {

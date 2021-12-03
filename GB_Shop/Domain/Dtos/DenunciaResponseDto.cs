@@ -1,4 +1,5 @@
 using System;
+using GB_Shop.Domain.Entities;
 
 namespace GB_Shop.Domain.Dtos
 {

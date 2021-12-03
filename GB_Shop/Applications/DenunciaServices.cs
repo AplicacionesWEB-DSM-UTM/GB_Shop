@@ -18,11 +18,11 @@ namespace GB_Shop.Applications
                 DescripcionLugar : Denuncia.DescLugar,
                 GeoUbicacion : Denuncia.GeoUbiDen,
                 Colonia : Denuncia.Colonia,
-                Foto : Denuncia.Foto == null ? string.Empty : Denuncia.Foto.Foto1
+                Foto : ""
             );
         }
 
-        public Denuncia ResponseToObject(DenunciaResponseDto dto)
+        public Denuncia ResponseToObject(DenunciaResponseDto dto, int id)
         {
             if(!validateEntity(dto))
             {
@@ -35,9 +35,29 @@ namespace GB_Shop.Applications
                 DescLugar = dto.DescripcionLugar,
                 GeoUbiDen = dto.GeoUbicacion,
                 Colonia = dto.Colonia,
+                IdFoto = id
+                /*
+                Foto = new Foto()
+                {
+                    Foto1 = dto.Foto
+                }*/
             };
 
             return Denuncia;
+        }
+
+        public Foto ResponseToFoto(DenunciaResponseDto dto)
+        {
+            if(!validateEntity(dto))
+            {
+                return null;
+            }
+            
+            var Foto = new Foto{
+                Foto1 = dto.Foto
+            };
+
+            return Foto;
         }
 
         public Denuncia DtoToObject(DenunciaFilterDto dto)
@@ -53,11 +73,7 @@ namespace GB_Shop.Applications
                 IdMotivo = dto.MotivoDenuncia,
                 DescLugar = string.Empty,
                 GeoUbiDen = dto.GeoUbicacion,
-                Colonia = dto.Colonia,
-                Foto = new Foto{
-                    IdFoto = 0,
-                    Foto1 = string.Empty
-                }
+                Colonia = dto.Colonia
             };
 
             return Denuncia;

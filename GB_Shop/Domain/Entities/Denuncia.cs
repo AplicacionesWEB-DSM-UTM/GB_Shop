@@ -13,8 +13,9 @@ namespace GB_Shop.Domain.Entities
         public string DescLugar { get; set; }
         public string GeoUbiDen { get; set; }
         public string Colonia { get; set; }
-        public int? IdFoto { get; set; }
+        public int IdFoto { get; set; }
 
-        public virtual Foto Foto { get; set; }
+        public virtual Foto IdFotoNavigation { get; set; }
+        public virtual MotivosDenuncium IdMotivoNavigation { get; set; }
     }
 }

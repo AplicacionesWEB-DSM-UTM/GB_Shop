@@ -15,6 +15,6 @@ namespace GB_Shop.Domain.Entities
         public string Rechazar { get; set; }
         public int? IdMotivo { get; set; }
 
-        public virtual MotivosDenuncium IdPoiNavigation { get; set; }
+        public virtual MotivosDenuncium IdMotivoNavigation { get; set; }
     }
 }
