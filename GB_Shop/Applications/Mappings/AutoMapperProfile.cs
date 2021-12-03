@@ -26,6 +26,11 @@ namespace GB_Shop.Applications.Mappings
             .ForMember(dest => dest.Geo_Ubicacion, opt => opt.MapFrom(src => src.GeoUbiDen))
             .ForMember(dest => dest.Confirmacion, opt => opt.MapFrom(src => src.Confirmar));
 
+            CreateMap<Poi, POIFilterResponse>()
+            .ForMember(dest => dest.Motivo, opt => opt.MapFrom(src => src.IdMotivo))
+            .ForMember(dest => dest.Confirmacion, opt => opt.MapFrom(src => src.Confirmar))
+            .ForMember(dest => dest.Rechazos, opt => opt.MapFrom(src => src.Rechazar));
+
             CreateMap<Evento, EventosResponses>()
             .ForMember(dest => dest.IdEvento, opt => opt.MapFrom(src => src.IdEven))
             .ForMember(dest => dest.UbicacionEvento, opt => opt.MapFrom(src => src.UbicEven))
