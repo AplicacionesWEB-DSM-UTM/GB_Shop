@@ -6,6 +6,9 @@ using GB_Shop.Domain.Interfaces;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using AutoMapper;
+using GB_Shop.Domain.Entities;
+using GB_Shop.Domain.Dtos.Responses;
 
 namespace Controllers
 {
@@ -16,12 +19,14 @@ namespace Controllers
         private readonly IDenunciaRepository _repository;
         private readonly IDenunciaServices _services;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
-        public DenunciaController(IDenunciaRepository repository, IDenunciaServices services, IHttpContextAccessor httpContextAccessor)
+        public DenunciaController(IDenunciaRepository repository, IDenunciaServices services, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
             this._repository = repository;
             this._services = services;
             this._httpContextAccessor = httpContextAccessor;
+            this._mapper = mapper;
         }
         
         [HttpPost]
@@ -81,7 +86,8 @@ namespace Controllers
             var Denuncia = _services.DtoToObject(dto);
 
             var Denuncias =  await _repository.GetByFilter(Denuncia);
-            var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
+            var respuesta = _mapper.Map<IEnumerable<Denuncia>, IEnumerable<DenunciaResponse>>(Denuncias);
+            //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
 
             return Ok(respuesta);
         }
