@@ -2,7 +2,7 @@ using System;
 
 namespace GB_Shop.Domain.Dtos.Responses
 {
-    public class DenunciaFilterResponse
+    public class DenunciaFilter
     {
         public int MotivoDenuncia { get; set; }
 
