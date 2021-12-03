@@ -18,6 +18,24 @@ namespace GB_Shop.Infraestructure.Repository
             _context = context;
         }
 
+        public async Task<Denuncia> GetById(int id)
+        {
+            try
+            {
+                if(id <= 0)
+                {
+                    return null;
+                }
+                
+                var query = await _context.Denuncias.FirstOrDefaultAsync(x => x.IdReporte == id);
+                return query;
+            }
+            catch(Exception)
+            {
+                throw new Exception("Fallos al intentar realizar la peticion...");
+            }
+        }
+
         public async Task<int> reportar(Denuncia Denuncia)
         {
             try
@@ -94,46 +112,29 @@ namespace GB_Shop.Infraestructure.Repository
             }
         }
 
-        public async Task<Denuncia> GetById(int id)
-        {
-            try
-            {
-                if(id <= 0)
-                {
-                    return null;
-                }
-                
-                var query = await _context.Denuncias.FirstOrDefaultAsync(x => x.IdReporte == id);
-                return query;
-            }
-            catch(Exception)
-            {
-                throw new Exception("Fallos al intentar realizar la peticion...");
-            }
-        }
-
         public async Task<int> CountByFilter(Denuncia Denuncia)
         {
             try
             {
-                var query =  _context.Denuncias.Select(x => x);
-
-                var result = query.CountAsync();
+                var result = await _context.Denuncias.CountAsync();
                 
                 if(Denuncia == null)
                 {
-                    return await result;
+                    return result;
                 }
                 if(Denuncia.IdMotivo > 0)
                 {
-                    result = query.CountAsync(x => x.IdMotivo == Denuncia.IdMotivo);
+                    result = _context.Denuncias.Count(x => x.IdMotivo == Denuncia.IdMotivo);
                 }
                 if (!string.IsNullOrEmpty(Denuncia.Colonia))
                 {
-                    result = query.CountAsync(x => x.Colonia == Denuncia.Colonia);
+                    result = _context.Denuncias.Count(x => x.Colonia == Denuncia.Colonia);
                 }
-
-                return await result;
+                if (Denuncia.FechaDen != default(DateTime))
+                {
+                    result = _context.Denuncias.Count(x => x.FechaDen == Denuncia.FechaDen);
+                }
+                return result;
             }
             catch(Exception)
             {
