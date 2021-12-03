@@ -8,33 +8,33 @@ namespace GB_Shop.Applications
 {
     public class EventosServices : IEventosServices
     {
-         public EventosResponseDto ObjectToDto(Eventos Eventos)
+         public EventosResponseDto ObjectToDto(Evento Evento)
         {
            var result = new EventosResponseDto
             (
-                IdEvento : Eventos.IdEven, 
-                FechaEvento : Eventos.FechaEven,
-                HoraEvento : Eventos.HoraEven,
-                UbicacionEvento : Eventos.UbicEven,
-                GeoUbicacion : Eventos.GeoUbiEve,
-                CantPersonas : Eventos.CantPersonas,
-                CaracteristicasEvento : Eventos.CaractEven,
-                IdPatrocinador: Eventos.IdPatrocinador,
-                IdConsideraciones : Eventos.IdConsideraciones
+                IdEvento : Evento.IdEven, 
+                FechaEvento : Evento.FechaEven,
+                HoraEvento : Evento.HoraEven,
+                UbicacionEvento : Evento.UbicEven,
+                GeoUbicacion : Evento.GeoUbiEve,
+                CantPersonas : Evento.CantPersonas,
+                CaracteristicasEvento : Evento.CaractEven,
+                IdPatrocinador: Evento.IdPatrocinador,
+                IdConsideraciones : Evento.IdConsideraciones
                 
             );
 
             return result;
         }
 
-         public Eventos DtoToObject(EventosFilterDto dto)
+         public Evento DtoToObject(EventosFilterDto dto)
         {
             if((dto.IdEven <= 0) && string.IsNullOrEmpty(dto.UbicacionEvento) && string.IsNullOrEmpty(dto.GeoUbicacion) && (dto.CantPersonas <=0) && string.IsNullOrEmpty(dto.CaracteristicasEvento) && (dto.IdPatrocinador <=0) && (dto.IdConsideraciones <=0)  )
             {
                 return null;
             }
 
-            var Eventos = new Eventos{
+            var Evento = new Evento{
                 IdEven = dto.IdEven,
                 FechaEven = default(DateTime),
                 HoraEven = default,
@@ -48,38 +48,38 @@ namespace GB_Shop.Applications
 
                 };
 
-                return Eventos;
+                return Evento;
             }
-            public bool validateEntity(EventosResponseDto Eventos)
+            public bool validateEntity(EventosResponseDto Evento)
         {
-            if(Eventos.FechaEvento != default (DateTime))
+            if(Evento.FechaEvento != default (DateTime))
             {
                 return false;
             }
-            if(Eventos.HoraEvento != default (TimeSpan))
+            if(Evento.HoraEvento != default (TimeSpan))
             {
                 return false;
             }
-            if(string.IsNullOrEmpty(Eventos.UbicacionEvento))
+            if(string.IsNullOrEmpty(Evento.UbicacionEvento))
             {
                 return false;
             }
-            if(string.IsNullOrEmpty(Eventos.GeoUbicacion))
+            if(string.IsNullOrEmpty(Evento.GeoUbicacion))
             {
                 return false;
             }
-            if((Eventos.CantPersonas >0 ))
+            if((Evento.CantPersonas >0 ))
             {
                 return false;
             }
-            if(string.IsNullOrEmpty(Eventos.CaracteristicasEvento))
+            if(string.IsNullOrEmpty(Evento.CaracteristicasEvento))
             {
                 return false;
             }
             return true;
         }
 
-        public Eventos ResponseToObject(EventosResponseDto dto)
+        public Evento ResponseToObject(EventosResponseDto dto)
         {
             throw new NotImplementedException();
         }

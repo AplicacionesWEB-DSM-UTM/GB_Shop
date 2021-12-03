@@ -18,9 +18,9 @@ namespace GB_Shop.Infraestructure.Repository
             _context = context;
         }
 
-       public async Task<int> registrar(Eventos Eventos)
+       public async Task<int> registrar(Evento Evento)
         {
-            var entity = Eventos;
+            var entity = Evento;
             await _context.AddAsync(entity);
             var rows = await _context.SaveChangesAsync();
 
@@ -33,46 +33,46 @@ namespace GB_Shop.Infraestructure.Repository
                 return entity.IdEven;
             }
         }
-         public async Task<IEnumerable<Eventos>> GetByFilter(Eventos Eventos)
+         public async Task<IEnumerable<Evento>> GetByFilter(Evento Evento)
         {
-            if(Eventos == null)
+            if(Evento == null)
             {
-                return new List<Eventos>();
+                return new List<Evento>();
             }
 
             var query = _context.Eventos.Select(x => x);
 
-            if(Eventos.IdEven > 0)
+            if(Evento.IdEven > 0)
             {
-                query = query.Where(x => x.IdEven == Eventos.IdEven);
+                query = query.Where(x => x.IdEven == Evento.IdEven);
             }
-            if(Eventos.FechaEven != default (DateTime))
+            if(Evento.FechaEven != default (DateTime))
             {
-                query = query.Where(x => x.FechaEven == Eventos.FechaEven);
+                query = query.Where(x => x.FechaEven == Evento.FechaEven);
             }
-            if(Eventos.HoraEven != default (TimeSpan))
+            if(Evento.HoraEven != default (TimeSpan))
             {
-                query = query.Where(x => x.HoraEven == Eventos.HoraEven);
+                query = query.Where(x => x.HoraEven == Evento.HoraEven);
             }
-            if (!string.IsNullOrEmpty(Eventos.UbicEven))
+            if (!string.IsNullOrEmpty(Evento.UbicEven))
             {
-                query = query.Where(x => x.UbicEven == Eventos.UbicEven);
+                query = query.Where(x => x.UbicEven == Evento.UbicEven);
             }
-            if (!string.IsNullOrEmpty(Eventos.GeoUbiEve))
+            if (!string.IsNullOrEmpty(Evento.GeoUbiEve))
             {
-                query = query.Where(x => x.GeoUbiEve == Eventos.GeoUbiEve);
+                query = query.Where(x => x.GeoUbiEve == Evento.GeoUbiEve);
             }
-            if (Eventos.CantPersonas > 0) 
+            if (Evento.CantPersonas > 0) 
             {
-                query = query.Where(x => x.CantPersonas == Eventos.CantPersonas);
+                query = query.Where(x => x.CantPersonas == Evento.CantPersonas);
             }
-             if(Eventos.IdPatrocinador > 0)
+             if(Evento.IdPatrocinador > 0)
             {
-                query = query.Where(x => x.IdPatrocinador == Eventos.IdPatrocinador);
+                query = query.Where(x => x.IdPatrocinador == Evento.IdPatrocinador);
             }
-             if(Eventos.IdConsideraciones > 0)
+             if(Evento.IdConsideraciones > 0)
             {
-                query = query.Where(x => x.IdConsideraciones == Eventos.IdConsideraciones);
+                query = query.Where(x => x.IdConsideraciones == Evento.IdConsideraciones);
             }
 
             return await query.ToListAsync();

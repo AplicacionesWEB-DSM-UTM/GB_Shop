@@ -52,46 +52,6 @@ namespace GB_Shop.Controllers
             var url_result = $"https://{host}/api/Eventos/{id}";
 
             return Created(url_result, id);
-
-            if (UbicacionEvento !=0)
-            {
-                return Conflict("No se encontró la ubicación, intenta de nuevo...");
-            }
-
-             var host = _httpContextAccessor.HttpContext.Request.Host.Value;
-            var url_result = $"https://{host}/api/Eventos/{UbicacionEvento}";
-
-            if (GeoUbicacion)
-            {
-                return Conflict("No se encontró la GeoUbicación, por favor intenta de nuevo...");
-            }
-            var host = _httpContextAccessor.HttpContext.Request.Host.Value;
-            var url_result = $"https://{host}/api/Eventos/{GeoUbicacion}";
-
-            if (CantPersonas)
-            {
-                return Conflict("No se encontró la ubicación, intenta de nuevo...");
-            }
-            var host = _httpContextAccessor.HttpContext.Request.Host.Value;
-            var url_result = $"https://{host}/api/Eventos/{CantPersonas}";
-
-            if (CaracteristicasEvento)
-            {
-                return Conflict("Campos vacios, por favor llena los campos...");
-            }
-
-            if (IdPatrocinador)
-            {
-                return Conflict("El registro no puede ser realizado, verifica tu información…");
-            }
-
-            if (IdConsideraciones)
-            {
-                return Conflict("El registro no puede ser realizado, verifica tu información…");
-            }
-
-        }
-
-       
+        }       
     }
 }

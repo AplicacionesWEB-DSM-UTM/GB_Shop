@@ -8,9 +8,9 @@ namespace GB_Shop.Domain.Interfaces
 {
     public interface IEventosServices
     {
-          public EventosResponseDto ObjectToDto(Eventos Eventos);
-        public Eventos ResponseToObject(EventosResponseDto dto);
-        public Eventos DtoToObject(EventosFilterDto dto);
-        public bool validateEntity(EventosResponseDto Eventos);
+          public EventosResponseDto ObjectToDto(Evento Evento);
+        public Evento ResponseToObject(EventosResponseDto dto);
+        public Evento DtoToObject(EventosFilterDto dto);
+        public bool validateEntity(EventosResponseDto Evento);
     }
 }
