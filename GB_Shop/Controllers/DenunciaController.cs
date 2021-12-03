@@ -55,11 +55,11 @@ namespace Controllers
         */
         [HttpPost]
         [Route("GetByFilter")]
-        public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
+        public async Task<IActionResult> GetByFilter(DenunciaFilter dto)
         {
             //var Denuncia = _services.DtoToObject(dto);
 
-            var denuncia =  _mapper.Map<DenunciaFilterDto, Denuncia>(dto);
+            var denuncia =  _mapper.Map<DenunciaFilter, Denuncia>(dto);
             var Denuncias =  await _repository.GetByFilter(denuncia);
             var respuesta = _mapper.Map<IEnumerable<Denuncia>, IEnumerable<DenunciaResponse>>(Denuncias);
             //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
@@ -69,10 +69,10 @@ namespace Controllers
 
         [HttpPost]
         [Route("CountByFilter")]
-        public async Task<IActionResult> CountByFilter(DenunciaFilterDto dto)
+        public async Task<IActionResult> CountByFilter(DenunciaFilter dto)
         {
             //var denuncia = _services.DtoToObject(dto);
-            var denuncia =  _mapper.Map<DenunciaFilterDto, Denuncia>(dto);
+            var denuncia =  _mapper.Map<DenunciaFilter, Denuncia>(dto);
 
             var query = await _repository.CountByFilter(denuncia);
             return Ok(query);

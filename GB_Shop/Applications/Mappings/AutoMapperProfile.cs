@@ -15,11 +15,11 @@ namespace GB_Shop.Applications.Mappings
             .ForMember(dest => dest.DescripcionLugar, opt=> opt.MapFrom(src => src.DescLugar))
             .ForMember(dest => dest.GeoUbicacion, opt => opt.MapFrom(src => src.GeoUbiDen))
             .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.IdFoto))
-            .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.IdReporte));
+            .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.IdReporte)).ReverseMap();
 
-            CreateMap<Denuncia, DenunciaFilterResponse>()
+            CreateMap<Denuncia, DenunciaFilter>()
             .ForMember(dest => dest.MotivoDenuncia, opt => opt.MapFrom(src => src.IdMotivo))
-            .ForMember(dest => dest.FechaDenuncia, opt => opt.MapFrom(src => src.FechaDen));
+            .ForMember(dest => dest.FechaDenuncia, opt => opt.MapFrom(src => src.FechaDen)).ReverseMap();
 
             CreateMap<Poi, PoiResponse>()
             .ForMember(dest => dest.Distancia, opt => opt.MapFrom(src => src.Rango))

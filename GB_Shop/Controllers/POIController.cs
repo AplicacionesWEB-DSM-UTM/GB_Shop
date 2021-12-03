@@ -30,22 +30,99 @@ namespace Controllers
             this._mapper = mapper;
         }
         
+        #region Funciones
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var Poi = await _repository.GetById(id);
+            var query = await _repository.GetById(id);
+            var poi = _mapper.Map<Poi, PoiResponse>(query);
+            return Ok(poi);
 
-            if(Poi == null)
-                return NotFound($"No fue posible encontrar resultados con el id {id}...");
+        }
 
-            var respuesta = _mapper.Map<Poi, PoiResponse>(Poi);
+        /*
+            link: https://localhost:5001/api/POI/GetByFilter/
+
+            link: https://localhost:5001/api/POI/CountByFilter/
+
+            el siguiente es un json con datos vacios, puede usarse para probar el metodo GetByFilter y CountByFilter
+{
+    "MotivoDenuncia" : 0,
+    "Colonia" : "",
+    "FechaDenuncia" : "0001-01-01"
+}
+        *//*
+        [HttpPost]
+        [Route("GetByFilter")]
+        public async Task<IActionResult> GetByFilter(PoiFilterDto dto)
+        {
+            //var Denuncia = _services.DtoToObject(dto);
+
+            var poi =  _mapper.Map<PoiFilterDto, Poi>(dto);
+            var poi =  await _repository.GetByFilter(poi);
+            var respuesta = _mapper.Map<IEnumerable<Poi>, IEnumerable<PoiResponse>>(poi);
+            //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
+
             return Ok(respuesta);
         }
 
-        
-        
-    }
+        [HttpPost]
+        [Route("CountByFilter")]
+        public async Task<IActionResult> CountByFilter(PoiFilterDto dto)
+        {
+            //var denuncia = _services.DtoToObject(dto);
+            var poi =  _mapper.Map<PoiFilterDto, Poi>(dto);
 
+            var query = await _repository.CountByFilter(poi);
+            return Ok(query);
+        }
+
+        *//*
+            el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
+{
+    "MotivoDenuncia":1,
+    "DescripcionLugar":"esta horrible",
+    "GeoUbicacion":"12.345678903456789, 20,345678234567893",
+    "Colonia":"mercedes barrera",
+    "Foto":"foto.png"
+}
+        *//*
+
+        [HttpPost]
+        [Route("")]
+        [Route("Denunciar")]
+        public async Task<IActionResult> reportar(DenunciaResponseDto dto)
+        {
+            var validate = _services.validateEntity(dto);
+
+            if(!validate)
+            {
+                return UnprocessableEntity("El registro no puede ser realizado, debido a que falta información…");
+            }
+            var id = 0;
+
+            try
+            {
+                var Denuncia = _services.ResponseToObject(dto, IdFoto);
+                id = await _repository.reportar(Denuncia);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            if(id <= 0)
+            {
+                return Conflict("El registro no puede ser realizado, verifica tu información…");
+            }
+
+            var host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var url_result = $"https://{host}/api/Denuncia/{id}";
+
+            return Created(url_result, id);
+        }*/
+    #endregion
+    }
 }
     
