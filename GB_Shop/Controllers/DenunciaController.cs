@@ -36,7 +36,8 @@ namespace Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var query = await _repository.GetById(id);
-            return Ok(query);
+            var denuncias = _mapper.Map<Denuncia, DenunciaResponse>(query);
+            return Ok(denuncias);
 
         }
 
@@ -56,9 +57,10 @@ namespace Controllers
         [Route("GetByFilter")]
         public async Task<IActionResult> GetByFilter(DenunciaFilterDto dto)
         {
-            var Denuncia = _services.DtoToObject(dto);
+            //var Denuncia = _services.DtoToObject(dto);
 
-            var Denuncias =  await _repository.GetByFilter(Denuncia);
+            var denuncia =  _mapper.Map<DenunciaFilterDto, Denuncia>(dto);
+            var Denuncias =  await _repository.GetByFilter(denuncia);
             var respuesta = _mapper.Map<IEnumerable<Denuncia>, IEnumerable<DenunciaResponse>>(Denuncias);
             //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
 
@@ -69,7 +71,8 @@ namespace Controllers
         [Route("CountByFilter")]
         public async Task<IActionResult> CountByFilter(DenunciaFilterDto dto)
         {
-            var denuncia = _services.DtoToObject(dto);
+            //var denuncia = _services.DtoToObject(dto);
+            var denuncia =  _mapper.Map<DenunciaFilterDto, Denuncia>(dto);
 
             var query = await _repository.CountByFilter(denuncia);
             return Ok(query);
