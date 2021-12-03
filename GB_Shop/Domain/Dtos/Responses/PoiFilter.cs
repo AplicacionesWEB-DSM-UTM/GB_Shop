@@ -2,7 +2,7 @@ using System;
 
 namespace GB_Shop.Domain.Dtos.Responses
 {
-    public class POIFilterResponse
+    public class PoiFilter
     {
         public string Colonia {get; set;}
 

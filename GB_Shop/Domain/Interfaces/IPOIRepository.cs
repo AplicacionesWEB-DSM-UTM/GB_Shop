@@ -7,6 +7,9 @@ namespace GB_Shop.Domain.Interfaces
 {
     public interface IPOIRepository
     {
-        Task<Poi> GetById(int id);
+        public Task<int> reportar(Poi Poi);
+        public Task<IEnumerable<Poi>> GetByFilter(Poi Poi);
+        public Task<Poi> GetById(int id);
+        public Task<int> CountByFilter(Poi Poi);
     }
 }

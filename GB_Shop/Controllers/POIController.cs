@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GB_Shop.Domain.Dtos.Responses;
 using GB_Shop.Domain.Entities;
+using System;
 
 namespace Controllers
 {
@@ -52,16 +53,16 @@ namespace Controllers
     "Colonia" : "",
     "FechaDenuncia" : "0001-01-01"
 }
-        *//*
+        */
         [HttpPost]
         [Route("GetByFilter")]
-        public async Task<IActionResult> GetByFilter(PoiFilterDto dto)
+        public async Task<IActionResult> GetByFilter(PoiFilter dto)
         {
             //var Denuncia = _services.DtoToObject(dto);
 
-            var poi =  _mapper.Map<PoiFilterDto, Poi>(dto);
-            var poi =  await _repository.GetByFilter(poi);
-            var respuesta = _mapper.Map<IEnumerable<Poi>, IEnumerable<PoiResponse>>(poi);
+            var poi =  _mapper.Map<PoiFilter, Poi>(dto);
+            var result =  await _repository.GetByFilter(poi);
+            var respuesta = _mapper.Map<IEnumerable<Poi>, IEnumerable<PoiResponse>>(result);
             //var respuesta = Denuncias.Select(x => _services.ObjectToDto(x));
 
             return Ok(respuesta);
@@ -69,16 +70,16 @@ namespace Controllers
 
         [HttpPost]
         [Route("CountByFilter")]
-        public async Task<IActionResult> CountByFilter(PoiFilterDto dto)
+        public async Task<IActionResult> CountByFilter(PoiFilter dto)
         {
             //var denuncia = _services.DtoToObject(dto);
-            var poi =  _mapper.Map<PoiFilterDto, Poi>(dto);
+            var poi =  _mapper.Map<PoiFilter, Poi>(dto);
 
             var query = await _repository.CountByFilter(poi);
             return Ok(query);
         }
 
-        *//*
+        /*
             el siguiente es un json con datos vacios, puede usarse para probar el metodo reportar
 {
     "MotivoDenuncia":1,
@@ -87,12 +88,11 @@ namespace Controllers
     "Colonia":"mercedes barrera",
     "Foto":"foto.png"
 }
-        *//*
-
+        */
         [HttpPost]
         [Route("")]
         [Route("Denunciar")]
-        public async Task<IActionResult> reportar(DenunciaResponseDto dto)
+        public async Task<IActionResult> reportar(PoiResponse dto)
         {
             var validate = _services.validateEntity(dto);
 
@@ -104,8 +104,8 @@ namespace Controllers
 
             try
             {
-                var Denuncia = _services.ResponseToObject(dto, IdFoto);
-                id = await _repository.reportar(Denuncia);
+                var poi = _services.ResponseToObject(dto);
+                id = await _repository.reportar(poi);
             }
             catch(Exception ex)
             {
@@ -121,7 +121,7 @@ namespace Controllers
             var url_result = $"https://{host}/api/Denuncia/{id}";
 
             return Created(url_result, id);
-        }*/
+        }
     #endregion
     }
 }

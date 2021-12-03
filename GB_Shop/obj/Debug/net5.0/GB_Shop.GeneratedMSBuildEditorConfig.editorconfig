@@ -7,8 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = GB_Shop
-<<<<<<< HEAD
-build_property.ProjectDir = C:\Users\live\Downloads\Trash\GB_Shop\
-=======
-build_property.ProjectDir = D:\proyectos\HTML\Proyecto_basurero\GB_Shop\
->>>>>>> 6cf691f0c09b6218aa5faa68da0ce75eda3aae22
+build_property.ProjectDir = d:\proyectos\HTML\Proyecto_basurero\GB_Shop\
