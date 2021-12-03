@@ -194,10 +194,6 @@ namespace GB_Shop.Infraestructure.Data
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Confirmar)
-                    .HasMaxLength(2)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.GeoUbiDen)
                     .HasMaxLength(100)
                     .IsUnicode(false)
@@ -208,10 +204,6 @@ namespace GB_Shop.Infraestructure.Data
                 entity.Property(e => e.IdPoi)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("ID_poi");
-
-                entity.Property(e => e.Rechazar)
-                    .HasMaxLength(2)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.IdMotivoNavigation)
                     .WithMany()

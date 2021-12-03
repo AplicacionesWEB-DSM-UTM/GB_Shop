@@ -29,7 +29,12 @@ namespace GB_Shop.Applications.Mappings
             CreateMap<Poi, PoiFilter>()
             .ForMember(dest => dest.Motivo, opt => opt.MapFrom(src => src.IdMotivo))
             .ForMember(dest => dest.Confirmacion, opt => opt.MapFrom(src => src.Confirmar))
-            .ForMember(dest => dest.Rechazos, opt => opt.MapFrom(src => src.Rechazar)).ReverseMap();
+            .ForMember(dest => dest.Rechazos, opt => opt.MapFrom(src => src.Rechazar));
+
+            CreateMap<PoiFilter, Poi>()
+            .ForMember(dest => dest.IdMotivo, opt => opt.MapFrom(src => src.Motivo))
+            .ForMember(dest => dest.Confirmar, opt => opt.MapFrom(src => src.Confirmacion))
+            .ForMember(dest => dest.Rechazar, opt => opt.MapFrom(src => src.Rechazos));
 
             CreateMap<Evento, EventosResponses>()
             .ForMember(dest => dest.IdEvento, opt => opt.MapFrom(src => src.IdEven))

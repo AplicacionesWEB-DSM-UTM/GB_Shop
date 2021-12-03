@@ -91,8 +91,8 @@ namespace Controllers
         */
         [HttpPost]
         [Route("")]
-        [Route("Denunciar")]
-        public async Task<IActionResult> reportar(PoiResponse dto)
+        [Route("Crear")]
+        public async Task<IActionResult> Crear(PoiResponse dto)
         {
             var validate = _services.validateEntity(dto);
 
