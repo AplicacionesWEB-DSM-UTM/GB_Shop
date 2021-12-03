@@ -43,6 +43,10 @@ namespace GB_Shop
             services.AddDbContext<GB_shopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GBshop")));
             services.AddTransient<IDenunciaRepository, DenunciaSqlRepository>();
             services.AddTransient<IDenunciaServices, DenunciaServices>();
+            services.AddTransient<IPOIRepository, POISqlRepository>();
+            services.AddTransient<IPOIServices, POIServices>();
+            services.AddTransient<IEventosRepository, EventosSqlRepository>();
+            services.AddTransient<IEventosServices, EventosServices>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         }
 

@@ -24,18 +24,18 @@ namespace GB_Shop.Applications.Mappings
             CreateMap<Poi, PoiResponse>()
             .ForMember(dest => dest.Distancia, opt => opt.MapFrom(src => src.Rango))
             .ForMember(dest => dest.GeoUbicacion, opt => opt.MapFrom(src => src.GeoUbiDen))
-            .ForMember(dest => dest.Confirmaciones, opt => opt.MapFrom(src => src.Confirmar));
+            .ForMember(dest => dest.Confirmaciones, opt => opt.MapFrom(src => src.Confirmar)).ReverseMap();
 
             CreateMap<Poi, PoiFilter>()
             .ForMember(dest => dest.Motivo, opt => opt.MapFrom(src => src.IdMotivo))
             .ForMember(dest => dest.Confirmacion, opt => opt.MapFrom(src => src.Confirmar))
-            .ForMember(dest => dest.Rechazos, opt => opt.MapFrom(src => src.Rechazar));
+            .ForMember(dest => dest.Rechazos, opt => opt.MapFrom(src => src.Rechazar)).ReverseMap();
 
             CreateMap<Evento, EventosResponses>()
             .ForMember(dest => dest.IdEvento, opt => opt.MapFrom(src => src.IdEven))
             .ForMember(dest => dest.UbicacionEvento, opt => opt.MapFrom(src => src.UbicEven))
             .ForMember(dest => dest.GeoUbicacion, opt => opt.MapFrom(src => src.GeoUbiEve))
-            .ForMember(dest => dest.CaracteristicasEvento, opt => opt.MapFrom(src => src.CaractEven));
+            .ForMember(dest => dest.CaracteristicasEvento, opt => opt.MapFrom(src => src.CaractEven)).ReverseMap();
 
 
         }
