@@ -14,7 +14,8 @@ namespace GB_Shop.Applications.Mappings
             .ForMember(dest => dest.MotivoDenuncia, opt=> opt.MapFrom(src => src.IdMotivo))
             .ForMember(dest => dest.DescripcionLugar, opt=> opt.MapFrom(src => src.DescLugar))
             .ForMember(dest => dest.GeoUbicacion, opt => opt.MapFrom(src => src.GeoUbiDen))
-            .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.IdFoto));
+            .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.IdFoto))
+            .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.IdReporte));
 
             CreateMap<Poi, PoiResponse>()
             .ForMember(dest => dest.Distancia, opt => opt.MapFrom(src => src.Rango))
